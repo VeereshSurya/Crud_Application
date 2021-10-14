@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace CrudApplication.Modules.Views
 {
     /// <summary>
-    /// Interaction logic for BookStoreHomeView.xaml
+    /// Interaction logic for HomeView.xaml
     /// </summary>
-    public partial class BookStoreHomeView : UserControl
+    public partial class HomeView : UserControl
     {
-        public BookStoreHomeView()
+        public HomeView()
         {
             InitializeComponent();
         }
