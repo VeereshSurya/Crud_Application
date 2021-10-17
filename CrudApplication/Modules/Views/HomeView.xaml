@@ -20,6 +20,13 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+
+            <Style TargetType="DataGridColumnHeader">
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="Background" Value="LightGray" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+            
         </ResourceDictionary>
     </UserControl.Resources>
     
@@ -95,17 +102,16 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-
-                    <Button Grid.Row="1" Grid.Column="0" Margin="10 0 5 10" Padding="7" Content="Update" FontWeight="Bold" />
-                    <Button Grid.Row="1" Grid.Column="1" Margin="10 0 0 10" Padding="7" Content="Delete" FontWeight="Bold" />
+                    
 
                     <!--<Button Grid.Row="0" Grid.Column="0" Margin="10 10 5 0 " Command="{Binding AddBookCommand}" Padding="7" Content="Create" FontWeight="Bold" />
                     <Button Grid.Row="0" Grid.Column="1" Margin="0 10 0 0" Padding="7" Content="Read" FontWeight="Bold" />-->
 
-                    <Button Grid.Row="1" Grid.Column="0" Margin="10 0 5 10 " Command="{Binding AddBookCommand}" Padding="7" Content="Create" FontWeight="Bold" />
-                    <Button Grid.Row="1" Grid.Column="1" Margin="10 0 0 10" Padding="7" Content="Read" FontWeight="Bold" />
+                    <Button Grid.Row="1" Grid.Column="0" Margin="10 0 5 10 " Command="{Binding AddBookCommand}" Padding="7" Content="Add" FontWeight="Bold" />
+                    <Button Grid.Row="1" Grid.Column="1" Margin="10 0 0 10" Command="{Binding CancleCommand}" Padding="7" Content="Cancle" FontWeight="Bold" />
 
-
+                    <Button Grid.Row="1" Grid.Column="0" Margin="10 0 5 10" Command="{Binding UpdateCommmand}" Padding="7" Content="Update" FontWeight="Bold" Visibility="{Binding IsVisibleUpdateAndCancle}" />
+                    <Button Grid.Row="1" Grid.Column="1" Margin="10 0 0 10" Command="{Binding CancleCommand}" Padding="7" Content="Cancle" FontWeight="Bold" Visibility="{Binding IsVisibleUpdateAndCancle}" />
 
                 </Grid>
             </Grid>
@@ -130,11 +136,22 @@
                 </Grid>
 
                 <DataGrid Grid.Row="1" ItemsSource="{Binding AllBooks}" Margin="5" AutoGenerateColumns="False" GridLinesVisibility="Horizontal"  CanUserReorderColumns="False" 
-                          CanUserResizeColumns="False" CanUserResizeRows="False" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" ColumnHeaderHeight="25">
-                    
+                          CanUserResizeColumns="False" CanUserResizeRows="False" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" ColumnHeaderHeight="30">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding BookName}" Header="BookName" Width="*" IsReadOnly="True" />
 
+                        <DataGridTextColumn Binding="{Binding Author}" Header="Author" Width="*" IsReadOnly="True" />
+
+                        <DataGridTextColumn Binding="{Binding Price}" Header="Price" Width="*" IsReadOnly="True" />
+
+                        <DataGridTextColumn Binding="{Binding Publications}" Header="Publications" Width="*" IsReadOnly="True" />
+
+                        <DataGridTextColumn Binding="{Binding Publications}" Header="Actions" Width="*" IsReadOnly="True" >
+                            
+                        </DataGridTextColumn>
+
+                    </DataGrid.Columns>
                 </DataGrid>
-
             </Grid>
         </Grid>
 

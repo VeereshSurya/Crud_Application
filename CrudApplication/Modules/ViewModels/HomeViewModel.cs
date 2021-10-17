@@ -64,6 +64,17 @@ namespace CrudApplication.Modules.ViewModels
             }
         }
 
+        private Visibility _isVisibleUpdateAndCancle { get; set; }
+
+        public Visibility IsVisibleUpdateAndCancle
+        {
+            get { return _isVisibleUpdateAndCancle; }
+            set
+            {
+                _isVisibleUpdateAndCancle = value;
+            }
+        }
+
         private ObservableCollection<Book> _allBooks;
         public ObservableCollection<Book> AllBooks
         {
@@ -76,19 +87,13 @@ namespace CrudApplication.Modules.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        #endregion
-
-        #region Commands 
-
-        public ICommand AddBookCommand { get; }
-
         private string _error;
         public string Error
         {
             get { return _error; }
             set
             {
-                if(_error != value)
+                if (_error != value)
                 {
                     _error = value;
                     NotifyPropertyChanged(nameof(Error));
@@ -96,17 +101,28 @@ namespace CrudApplication.Modules.ViewModels
             }
         }
 
-        //public string this[string columnName] => throw new NotImplementedException();
-
         #endregion
 
+        #region Commands 
+
+        public ICommand AddBookCommand { get; }
+        public ICommand CancleCommand { get; }
+        public ICommand UpdateCommand { get; }
+        public ICommand DeleteCommand { get; }
+
+
+        #endregion
 
         #region Constructor
 
         public HomeViewModel()
         {
             AllBooks = new ObservableCollection<Book>();
+            IsVisibleUpdateAndCancle = Visibility.Hidden;
             AddBookCommand = new RelayCommand(AddBookCommandHandler, f => CanExecuteAddBookCommandHandler());
+            CancleCommand = new RelayCommand(CancleCommandHandler, f => true);
+            UpdateCommand = new RelayCommand(UpdateCommandHanlder, f => CanExecuteUpdateCommandHandler());
+            DeleteCommand = new RelayCommand(DeleteCommandHandler, f => true);
         }
 
         #endregion
@@ -231,8 +247,32 @@ namespace CrudApplication.Modules.ViewModels
             return true;
         }
 
-        #endregion
 
+        private void CancleCommandHandler(object parameter)
+        {
+            BookName = null;
+            Author = null;
+            Price = 0;
+            Publications = null;
+        }
+
+        private void UpdateCommandHanlder(object parameter)
+        {
+            // call the dbservice method by passing all the details and before call
+        }
+
+        private bool CanExecuteUpdateCommandHandler()
+        {
+            // do input validation here 
+            return true;
+        }
+
+        private void DeleteCommandHandler(object parameter)
+        {
+            // call db service method here and show proper message to the user .
+        }
+
+        #endregion
 
         #region Public Methods
 
