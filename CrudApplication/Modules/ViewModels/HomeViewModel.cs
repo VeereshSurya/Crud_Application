@@ -1,5 +1,6 @@
 ﻿using CrudApplication.Commands;
 using CrudApplication.Models;
+using CrudApplication.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +19,7 @@ namespace CrudApplication.Modules.ViewModels
 
         #region Properties and Declarations 
 
+        readonly DbService _dbService;
 
         private string _bookName;
 
@@ -110,6 +112,10 @@ namespace CrudApplication.Modules.ViewModels
         public ICommand UpdateCommand { get; }
         public ICommand DeleteCommand { get; }
 
+        public ICommand<object> IUpdateCommand { get; }
+
+        //public ICommand<object> DeleteCommand { get; }
+
 
         #endregion
 
@@ -118,11 +124,24 @@ namespace CrudApplication.Modules.ViewModels
         public HomeViewModel()
         {
             AllBooks = new ObservableCollection<Book>();
+            _dbService = new DbService();
             IsVisibleUpdateAndCancle = Visibility.Hidden;
             AddBookCommand = new RelayCommand(AddBookCommandHandler, f => CanExecuteAddBookCommandHandler());
             CancleCommand = new RelayCommand(CancleCommandHandler, f => true);
             UpdateCommand = new RelayCommand(UpdateCommandHanlder, f => CanExecuteUpdateCommandHandler());
             DeleteCommand = new RelayCommand(DeleteCommandHandler, f => true);
+
+            
+
+            Book newBook = new Book()
+            {
+                Name = "Rich Dad Poor Dad",
+                Author = "Dinnes",
+                Price = 459,
+                Publications = "Best Seller"
+            };
+
+            AllBooks.Add(newBook);
         }
 
         #endregion
@@ -234,6 +253,9 @@ namespace CrudApplication.Modules.ViewModels
             };
 
             AllBooks.Add(book);
+            _dbService.InsertBook(book);
+            _dbService.UpdateBookDetails(book);
+            //_dbService.DeleteBook(book);
         }
 
         private bool CanExecuteAddBookCommandHandler()

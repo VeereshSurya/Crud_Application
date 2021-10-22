@@ -26,6 +26,26 @@
                 <Setter Property="Background" Value="LightGray" />
                 <Setter Property="FontWeight" Value="SemiBold" />
             </Style>
+
+            <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
+                <Setter Property="MinHeight" Value="30" />
+            </Style>
+
+            <Style x:Key="DataGridCellStyle" TargetType="DataGridCell">
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Grid>
+                                <Border x:Name="dataCellBorder" BorderThickness="0" Padding="3 0 0 0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             
         </ResourceDictionary>
     </UserControl.Resources>
@@ -136,19 +156,30 @@
                 </Grid>
 
                 <DataGrid Grid.Row="1" ItemsSource="{Binding AllBooks}" Margin="5" AutoGenerateColumns="False" GridLinesVisibility="Horizontal"  CanUserReorderColumns="False" 
-                          CanUserResizeColumns="False" CanUserResizeRows="False" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" ColumnHeaderHeight="30">
+                          CanUserResizeColumns="False" CanUserResizeRows="False" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" ColumnHeaderHeight="30"
+                          RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource DataGridCellStyle}" >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding BookName}" Header="BookName" Width="*" IsReadOnly="True" />
-
+                        <DataGridTextColumn Binding="{Binding Name}" Header="BookName" Width="*" IsReadOnly="True" />
                         <DataGridTextColumn Binding="{Binding Author}" Header="Author" Width="*" IsReadOnly="True" />
-
                         <DataGridTextColumn Binding="{Binding Price}" Header="Price" Width="*" IsReadOnly="True" />
-
                         <DataGridTextColumn Binding="{Binding Publications}" Header="Publications" Width="*" IsReadOnly="True" />
+                        <DataGridTemplateColumn Header="Actions" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Margin="0 0 5 0" Content="Update" Command="{Binding RelativeSource= {RelativeSource AncestorType= {x:Type UserControl}, Mode=FindAncestor}, 
+                                            Path=DataContext.UpdateCommand}" CommandParameter="{Binding}">
+                                            
+                                        </Button>
 
-                        <DataGridTextColumn Binding="{Binding Publications}" Header="Actions" Width="*" IsReadOnly="True" >
-                            
-                        </DataGridTextColumn>
+                                        <Button Margin="5 0 0 0" Content="Delete" Command="{Binding RelativeSource= {RelativeSource AncestorType= {x:Type UserControl}, Mode=FindAncestor},
+                                            Path=DataContext.DeleteCommand}" CommandParameter="{Binding}">
+                                            
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
                     </DataGrid.Columns>
                 </DataGrid>
